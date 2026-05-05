@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Voice Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Deepfake Detection</div>
+        <div class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/text">Text</a></li>
+            <li><a href="/image">Image</a></li>
+            <li><a href="/voice" class="active">Voice</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="tool-card">
+            <h2>Voice Authenticity Check</h2>
+            <p class="subtitle">Upload an audio file (.wav) to detect synthetic voices</p>
+            
+            <form id="detect-form" action="/predict_voice" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="file-drop-area">
+                        <i class="fas fa-microphone-alt"></i>
+                        <span id="audio-input-name">Drag & Drop or Click to Upload Audio</span>
+                        <input type="file" name="audio" id="audio-input" accept=".wav, audio/wav" required>
+                    </div>
+                </div>
+
+                <div class="file-preview" id="audio-preview-container">
+                    <audio id="audio-preview" controls></audio>
+                </div>
+
+                <button type="submit" id="submit-btn" class="submit-btn">
+                    <i class="fas fa-wave-square btn-icon"></i>
+                    <span class="btn-text">Analyze Voice</span>
+                    <div class="spinner"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Deepfake Detection</div>
+        <div class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/text">Text</a></li>
+            <li><a href="/image" class="active">Image</a></li>
+            <li><a href="/voice">Voice</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="tool-card">
+            <h2>Image Authenticity Check</h2>
+            <p class="subtitle">Upload an image to detect if it's real or AI-generated</p>
+            
+            <form id="detect-form" action="/predict_image" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="file-drop-area">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span id="image-input-name">Drag & Drop or Click to Upload</span>
+                        <input type="file" name="image" id="image-input" accept="image/*" required>
+                    </div>
+                </div>
+
+                <div class="file-preview" id="image-preview-container">
+                    <img id="image-preview" src="#" alt="Image Preview">
+                </div>
+
+                <button type="submit" id="submit-btn" class="submit-btn">
+                    <i class="fas fa-search btn-icon"></i>
+                    <span class="btn-text">Analyze Image</span>
+                    <div class="spinner"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+</html>

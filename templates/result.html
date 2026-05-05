@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Deepfake Detection</div>
+        <div class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/text">Text</a></li>
+            <li><a href="/image">Image</a></li>
+            <li><a href="/voice">Voice</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="tool-card result-card">
+            
+            <div class="result-header">
+                <h2>Analysis Complete</h2>
+                <p class="subtitle">Here are the results of the authenticity check</p>
+            </div>
+
+            <!-- Data for JS -->
+            <div id="prediction-text" style="display:none;">{{ prediction }}</div>
+            <div id="confidence-val" style="display:none;">{{ confidence }}</div>
+
+            <div id="result-badge" class="result-badge">
+                {{ prediction }}
+            </div>
+
+            <div class="confidence-section">
+                <div class="confidence-header">
+                    <span>Confidence Score</span>
+                    <span id="confidence-display">{{ confidence }}%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/" class="btn-secondary"><i class="fas fa-home"></i> Home</a>
+                <button onclick="window.history.back()" class="btn-primary"><i class="fas fa-redo"></i> Try Again</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const predText = document.getElementById('prediction-text').textContent.trim();
+            const lowerPred = predText.toLowerCase();
+            const badge = document.getElementById('result-badge');
+            
+            // Determine context from referrer URL
+            const ref = document.referrer.toLowerCase();
+            let context = "Content";
+            if (ref.includes("text")) context = "Text";
+            else if (ref.includes("image")) context = "Image";
+            else if (ref.includes("voice") || ref.includes("audio")) context = "Voice";
+
+            let displayText = predText;
+
+            // Set badge color and text based on prediction content
+            if (lowerPred.includes('fake') || lowerPred.includes('ai') || lowerPred.includes('spoof')) {
+                badge.classList.add('badge-fake');
+                displayText = "AI Generated " + context;
+            } else if (lowerPred.includes('real') || lowerPred.includes('human') || lowerPred.includes('bonafide')) {
+                badge.classList.add('badge-real');
+                if (context === "Voice" || context === "Text") {
+                    displayText = "Human Generated " + context;
+                } else {
+                    displayText = "Real " + context;
+                }
+            } else {
+                badge.classList.add('badge-ai'); // default styling
+            }
+            
+            badge.textContent = displayText;
+
+            // Handle confidence bar
+            let confText = document.getElementById('confidence-val').textContent;
+            let confVal = parseFloat(confText);
+            
+            if (!isNaN(confVal)) {
+                let percentage = confVal;
+                // Some backends might return 0.99 instead of 99, adjust if needed
+                if (confVal <= 1 && confVal > 0 && !confText.includes('%') && confText.indexOf('.') > -1 && confText.length <= 4) {
+                    percentage = confVal * 100;
+                    document.getElementById('confidence-display').textContent = percentage.toFixed(2) + '%';
+                }
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar-fill').style.width = percentage + '%';
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>
