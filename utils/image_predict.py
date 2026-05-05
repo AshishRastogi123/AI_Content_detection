@@ -1,31 +1,35 @@
+import os
 import numpy as np
 from tensorflow.keras.models import load_model
 from PIL import Image
+import gdown
 
-# model load
-model = load_model("models/deepfake_model.h5")
+# ====== MODEL DOWNLOAD (only first time) ======
+MODEL_PATH = "model/deepfake_model.h5"
+
+DRIVE_URL = "https://drive.google.com/file/d/1RSncALRxLA3vV4tf15ng8CJ0YnfjcsJO/view?usp=sharing"
+
+if not os.path.exists(MODEL_PATH):
+    os.makedirs("models", exist_ok=True)
+    print("Downloading model from Google Drive...")
+    gdown.download(DRIVE_URL, MODEL_PATH, quiet=False)
+
+# ====== LOAD MODEL ======
+model = load_model(MODEL_PATH)
 
 
+# ====== PREPROCESS FUNCTION ======
 def preprocess_image(img_path):
-
-    # image open and resize
     img = Image.open(img_path).convert("RGB")
     img = img.resize((128, 128))
-
-    # convert to numpy array
     img = np.array(img)
-
-    # normalization
     img = img / 255.0
-
-    # add batch dimension
     img = np.expand_dims(img, axis=0)
-
     return img
 
 
+# ====== PREDICTION FUNCTION ======
 def predict_image(img_path):
-
     processed = preprocess_image(img_path)
 
     prediction = model.predict(processed)[0][0]
