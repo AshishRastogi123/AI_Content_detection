@@ -10,18 +10,12 @@ warnings.filterwarnings("ignore")
 app = Flask(__name__, static_folder="statics", static_url_path="/statics")
 
 # =========================
-# FOLDER SETUP (IMPORTANT)
+# FOLDER SETUP
 # =========================
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-# =========================
-# IMPORTS (AFTER APP INIT)
-# =========================
-from utils.text_predict import predict_text
-from utils.image_predict import predict_image
-from utils.voice_predict import predict_voice
 
 # =========================
 # ROUTES
@@ -48,10 +42,12 @@ def voice_page():
 
 
 # =========================
-# TEXT DETECTION
+# TEXT DETECTION (LAZY LOAD)
 # =========================
 @app.route("/predict_text", methods=["POST"])
 def text_detection():
+    from utils.text_predict import predict_text   # 🔥 lazy import
+
     text = request.form.get("text")
 
     if not text:
@@ -67,10 +63,12 @@ def text_detection():
 
 
 # =========================
-# IMAGE DETECTION
+# IMAGE DETECTION (LAZY LOAD)
 # =========================
 @app.route("/predict_image", methods=["POST"])
 def image_detection():
+    from utils.image_predict import predict_image   # 🔥 lazy import
+
     file = request.files.get("image")
 
     if not file or file.filename == "":
@@ -90,10 +88,12 @@ def image_detection():
 
 
 # =========================
-# VOICE DETECTION
+# VOICE DETECTION (LAZY LOAD)
 # =========================
 @app.route("/predict_voice", methods=["POST"])
 def voice_detection():
+    from utils.voice_predict import predict_voice   # 🔥 lazy import
+
     file = request.files.get("audio")
 
     if not file or file.filename == "":
