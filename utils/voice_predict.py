@@ -9,7 +9,7 @@ import gdown
 # =========================
 
 MODEL_PATH = "model/voice_detection_model.pkl"
-MODEL_URL = "https://drive.google.com/file/d/1bs9E8v6-G8QvQGMQHgHAVbBFcprX-Q9V/view?usp=sharing"
+MODEL_URL = "https://drive.google.com/uc?export=download&id=1bs9E8v6-G8QvQGMQHgHAVbBFcprX-Q9V"
 
 os.makedirs("models", exist_ok=True)
 

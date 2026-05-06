@@ -14,8 +14,8 @@ from nltk.stem import WordNetLemmatizer
 MODEL_PATH = "model/ai_text_detector_model.joblib"
 VECTORIZER_PATH = "model/tfidf_vectorizer.joblib"
 
-MODEL_URL = "https://drive.google.com/file/d/1xNGvXdnrj2lzq5CncvEjii4MORxZMiUH/view?usp=sharing"
-VECTORIZER_URL = "https://drive.google.com/file/d/1zqrfZJRqwg0FBl7kEJ-6eyQqm-K339Wc/view?usp=sharing"
+MODEL_URL = "https://drive.google.com/uc?export=download&id=1xNGvXdnrj2lzq5CncvEjii4MORxZMiUH"
+VECTORIZER_URL = "https://drive.google.com/uc?export=download&id=1zqrfZJRqwg0FBl7kEJ-6eyQqm-K339Wc"
 
 os.makedirs("models", exist_ok=True)
 

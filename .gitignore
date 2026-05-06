@@ -1,2 +1,6 @@
 **venv
 **models
+ai_text_detector_model.joblib
+deepfake_model.h5
+tfidf_vectorizer.joblib
+voice_detection_model.pkl

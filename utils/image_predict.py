@@ -7,7 +7,7 @@ import gdown
 # ====== MODEL DOWNLOAD (only first time) ======
 MODEL_PATH = "model/deepfake_model.h5"
 
-DRIVE_URL = "https://drive.google.com/file/d/1RSncALRxLA3vV4tf15ng8CJ0YnfjcsJO/view?usp=sharing"
+DRIVE_URL = "https://drive.google.com/uc?export=download&id=1RSncALRxLA3vV4tf15ng8CJ0YnfjcsJO"
 
 if not os.path.exists(MODEL_PATH):
     os.makedirs("models", exist_ok=True)
