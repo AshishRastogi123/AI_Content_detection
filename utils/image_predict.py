@@ -15,7 +15,7 @@ if not os.path.exists(MODEL_PATH):
     gdown.download(DRIVE_URL, MODEL_PATH, quiet=False)
 
 # ====== LOAD MODEL ======
-model = load_model(MODEL_PATH)
+model = load_model(MODEL_PATH, compile=False)
 
 
 # ====== PREPROCESS FUNCTION ======
